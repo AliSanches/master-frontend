@@ -2,11 +2,11 @@ import { useState } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { MdEditSquare } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
 
 import { DAO } from "../../api/categoryGames/api";
 
-export const ModalEditCategory = ({ categoria }) => {
+export const ModalDeleteGame = ({ jogo }) => {
   const [isOpen, setIsopen] = useState(false);
 
   const handleOpen = () => {
@@ -17,14 +17,14 @@ export const ModalEditCategory = ({ categoria }) => {
     setIsopen(false);
   };
 
-  const [name, setName] = useState(categoria.name);
-  const [description, setDescription] = useState(categoria.description);
+  const [name, setName] = useState(jogo.name);
+  const [description, setDescription] = useState(jogo.description);
 
   const queryClient = useQueryClient();
   const dao = new DAO();
 
   const { mutate } = useMutation({
-    mutationFn: () => dao.update(categoria.id, name, description),
+    mutationFn: () => dao.delete(jogo.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listAll-Categories"] });
       handleClose();
@@ -33,11 +33,8 @@ export const ModalEditCategory = ({ categoria }) => {
 
   return (
     <>
-      <button
-        className="btn btn-info my-3 fs-5 text-white"
-        onClick={handleOpen}
-      >
-        <MdEditSquare />
+      <button className="btn btn-danger my-3 fs-5" onClick={handleOpen}>
+        <MdDeleteForever />
       </button>
       {isOpen && (
         <>
@@ -45,17 +42,17 @@ export const ModalEditCategory = ({ categoria }) => {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-5">Editar Categoria</h1>
+                  <h1 className="modal-title fs-5">Deletar jogo</h1>
                   <button className="btn-close" onClick={handleClose}></button>
                 </div>
                 <div className="modal-body">
                   <div className="mb-3">
-                    <label className="form-label">Categoria:</label>
+                    <label className="form-label">jogo:</label>
                     <input
                       type="email"
                       className="form-control"
                       id="exampleFormControlInput1"
-                      onChange={(e) => setName(e.target.value)}
+                      disabled
                       value={name}
                     />
                   </div>
@@ -65,7 +62,7 @@ export const ModalEditCategory = ({ categoria }) => {
                       className="form-control"
                       id="exampleFormControlTextarea1"
                       rows={3}
-                      onChange={(e) => setDescription(e.target.value)}
+                      disabled
                       value={description}
                     ></textarea>
                   </div>
@@ -80,10 +77,10 @@ export const ModalEditCategory = ({ categoria }) => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                     onClick={() => mutate()}
                   >
-                    Editar
+                    Excluir
                   </button>
                 </div>
               </div>

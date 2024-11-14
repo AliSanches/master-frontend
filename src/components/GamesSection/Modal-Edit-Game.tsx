@@ -6,7 +6,7 @@ import { MdEditSquare } from "react-icons/md";
 
 import { DAO } from "../../api/categoryGames/api";
 
-export const ModalEditCategory = ({ categoria }) => {
+export const ModalEditGame = ({ jogo }) => {
   const [isOpen, setIsopen] = useState(false);
 
   const handleOpen = () => {
@@ -17,14 +17,14 @@ export const ModalEditCategory = ({ categoria }) => {
     setIsopen(false);
   };
 
-  const [name, setName] = useState(categoria.name);
-  const [description, setDescription] = useState(categoria.description);
+  const [name, setName] = useState(jogo.name);
+  const [description, setDescription] = useState(jogo.description);
 
   const queryClient = useQueryClient();
   const dao = new DAO();
 
   const { mutate } = useMutation({
-    mutationFn: () => dao.update(categoria.id, name, description),
+    mutationFn: () => dao.update(jogo.id, name, description),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listAll-Categories"] });
       handleClose();
@@ -45,12 +45,12 @@ export const ModalEditCategory = ({ categoria }) => {
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-5">Editar Categoria</h1>
+                  <h1 className="modal-title fs-5">Editar jogo</h1>
                   <button className="btn-close" onClick={handleClose}></button>
                 </div>
                 <div className="modal-body">
                   <div className="mb-3">
-                    <label className="form-label">Categoria:</label>
+                    <label className="form-label">jogo:</label>
                     <input
                       type="email"
                       className="form-control"

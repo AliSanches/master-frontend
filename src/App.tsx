@@ -1,8 +1,14 @@
 import "./App.css";
 
-import { ModalCreateCategory } from "./components/Categories/Modal-Create-Category";
-import { TableCategory } from "./components/Table-Categories/Table-Categories";
-import { ModalSearch } from "./components/Categories/Modal-Search";
+import { TableJogos } from "./components/GamesSection/TableJogos";
+import { Main } from "./components/Main";
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 function App() {
   return (
@@ -10,11 +16,14 @@ function App() {
       className="container rounded-1 shadow mt-5"
       style={{ height: "800px", background: "#0d57b9" }}
     >
-      <div className="container d-flex gap-5">
-        <ModalCreateCategory />
-        <ModalSearch />
-      </div>
-      <TableCategory />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/jogos" element={<TableJogos />} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

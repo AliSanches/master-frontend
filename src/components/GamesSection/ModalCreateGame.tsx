@@ -2,11 +2,9 @@ import { useState } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { MdEditSquare } from "react-icons/md";
-
 import { DAO } from "../../api/categoryGames/api";
 
-export const ModalEditCategory = ({ categoria }) => {
+export const ModalCreateGame = () => {
   const [isOpen, setIsopen] = useState(false);
 
   const handleOpen = () => {
@@ -17,46 +15,57 @@ export const ModalEditCategory = ({ categoria }) => {
     setIsopen(false);
   };
 
-  const [name, setName] = useState(categoria.name);
-  const [description, setDescription] = useState(categoria.description);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const queryClient = useQueryClient();
   const dao = new DAO();
 
   const { mutate } = useMutation({
-    mutationFn: () => dao.update(categoria.id, name, description),
+    mutationFn: () => dao.create(name, description),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["listAll-Categories"] });
+      setName("");
+      setDescription("");
       handleClose();
     },
   });
 
   return (
     <>
-      <button
-        className="btn btn-info my-3 fs-5 text-white"
-        onClick={handleOpen}
-      >
-        <MdEditSquare />
+      <button className="btn btn-primary my-3" onClick={handleOpen}>
+        Jogo
       </button>
+
       {isOpen && (
         <>
           <div className="modal show" style={{ display: "block" }}>
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h1 className="modal-title fs-5">Editar Categoria</h1>
+                  <h1 className="modal-title fs-5">Cadastrar Jogo</h1>
                   <button className="btn-close" onClick={handleClose}></button>
                 </div>
                 <div className="modal-body">
                   <div className="mb-3">
                     <label className="form-label">Categoria:</label>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected></option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Nome:</label>
                     <input
                       type="email"
                       className="form-control"
                       id="exampleFormControlInput1"
                       onChange={(e) => setName(e.target.value)}
-                      value={name}
                     />
                   </div>
                   <div className="mb-3">
@@ -66,7 +75,6 @@ export const ModalEditCategory = ({ categoria }) => {
                       id="exampleFormControlTextarea1"
                       rows={3}
                       onChange={(e) => setDescription(e.target.value)}
-                      value={description}
                     ></textarea>
                   </div>
                 </div>
@@ -83,7 +91,7 @@ export const ModalEditCategory = ({ categoria }) => {
                     className="btn btn-primary"
                     onClick={() => mutate()}
                   >
-                    Editar
+                    Cadastrar
                   </button>
                 </div>
               </div>
