@@ -31,8 +31,8 @@ export const TableCategory = () => {
         {data.map((categoria) => (
           <div
             key={categoria.id}
-            className="container m-0 rounded-2 bg-primary d-flex flex-column text-black my-3 shadow "
-            style={{ height: "400px", width: "380px" }}
+            className="container m-0 rounded-2 d-flex flex-column text-black my-3 shadow "
+            style={{ height: "400px", width: "380px", background: "#589bfb" }}
           >
             <div
               style={{ height: "40px", width: "150px" }}

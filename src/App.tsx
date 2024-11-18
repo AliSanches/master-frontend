@@ -14,7 +14,7 @@ function App() {
   return (
     <div
       className="container rounded-1 shadow mt-5"
-      style={{ height: "800px", background: "#0d57b9" }}
+      style={{ height: "800px", background: "#1d3c73" }}
     >
       <Router>
         <Routes>

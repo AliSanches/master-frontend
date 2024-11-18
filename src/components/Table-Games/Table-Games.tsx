@@ -3,24 +3,17 @@ import { DAO } from "../../api/games/api";
 import { ModalDeleteGame } from "../GamesSection/Modal-Delete-Game";
 import { ModalEditGame } from "../GamesSection/Modal-Edit-Game";
 
-import Spinner from "react-bootstrap/Spinner";
+import { useQuery } from "@tanstack/react-query";
 
-import { useEffect, useState } from "react";
+import Spinner from "react-bootstrap/Spinner";
 
 export const TableGames = () => {
   const dao = new DAO();
 
-  const [data, setData] = useState([]);
-
-  const handle = async () => {
-    const resultado = await dao.listAll();
-
-    setData(resultado);
-  };
-
-  useEffect(() => {
-    handle();
-  }, [data]);
+  const { data } = useQuery({
+    queryKey: ["listAll-Games"],
+    queryFn: () => dao.listAll(),
+  });
 
   return (
     <>
@@ -32,8 +25,8 @@ export const TableGames = () => {
           data.map((jogo) => (
             <div
               key={jogo.id}
-              className="container m-0 rounded-2 bg-primary d-flex flex-column text-black my-3 shadow "
-              style={{ height: "400px", width: "380px" }}
+              className="container m-0 rounded-2 d-flex flex-column text-black my-3 shadow "
+              style={{ height: "400px", width: "380px", background: "#589bfb" }}
             >
               <div className="d-flex gap-5">
                 <div
